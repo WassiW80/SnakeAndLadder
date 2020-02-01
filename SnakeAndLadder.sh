@@ -2,6 +2,7 @@
 echo "Welcome to Snake And Ladder"
 #Constant
 INITIAL_POSITION=0
+WINNING_POSITION=100
 NO_PLAY=0
 LADDER=1
 SNAKE=2
@@ -28,4 +29,14 @@ function dieRoll() {
 	ladderSnakeOrNoPlayChecking
 }
 dieRoll
+
+while [ $player1 -lt $WINNING_POSITION ]
+do
+   if [ $player1 -lt 0 ]
+   then
+      player1=0
+   fi
+   dieRoll
+done
+
 
