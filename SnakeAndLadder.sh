@@ -8,25 +8,27 @@ LADDER=1
 SNAKE=2
 #Variable
 player1=$INITIAL_POSITION
-counter=0
+player2=$INITIAL_POSITION
+currentPlayer=$INITIAL_POSITION
+flag=true
 function ladderSnakeOrNoPlayChecking() {
 	option=$((RANDOM%3))
 	case $option in
 		$NO_PLAY)
-			player1=$player1
+			currentPlayer=$currentPlayer
 			;;
 		$LADDER)
-			player1=$(($player1+$numberOnDie))
-			if [ $player1 -gt 100 ]
+			currentPlayer=$(($currentPlayer+$numberOnDie))
+			if [ $currentPlayer -gt 100 ]
 			then
-				player1=$(($player1-$numberOnDie))
+				currentPlayer=$(($currentPlayer-$numberOnDie))
 			fi
 			;;
 		$SNAKE)
-			player1=$(($player1-$numberOnDie))
-			if [ $player1 -lt 0 ]
+			currentPlayer=$(($currentPlayer-$numberOnDie))
+			if [ $currentPlayer -lt 0 ]
 			then
-				player1=0
+				currentPlayer=0
 			fi
 			;;
 	esac
@@ -35,15 +37,36 @@ function ladderSnakeOrNoPlayChecking() {
 function dieRoll() {
 	numberOnDie=$(($RANDOM%6+1))
 	ladderSnakeOrNoPlayChecking
-	((counter++))
+	#((counter++))
 }
-dieRoll
 
-while [ $player1 -lt $WINNING_POSITION ]
+function playingWith2Player(){
+	if [[ $flag == true ]]
+	then
+		currentPlayer=$player1
+		dieRoll
+		player1=$currentPlayer
+		flag=false
+	else
+		currentPlayer=$player2
+		dieRoll
+		player2=$currentPlayer
+		flag=true
+	fi
+}
+
+while [ $currentPlayer -lt $WINNING_POSITION ]
 do
-	dieRoll
-	echo "Die Count is : $counter"
-	echo "Player 1 position : $player1"
+	playingWith2Player
 done
 
-
+function winnerChecking(){
+	if [[ $player1 -eq $WINNING_POSITION ]]
+	then
+		echo "PLAYER 1 WIN!!!"
+	elif [[ $player2 -eq $WINNING_POSITION ]]
+	then
+		echo "PLAYER 2 WIN!!!"
+	fi
+}
+winnerChecking
