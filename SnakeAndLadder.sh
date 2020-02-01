@@ -12,13 +12,13 @@ function ladderSnakeOrNoPlayChecking() {
 	option=$((RANDOM%3))
 	case $option in
 		$NO_PLAY)
-			PLAYER1=$PLAYER1
+			player1=$player1
 			;;
 		$LADDER)
-			PLAYER1+=$numberOnDie
+			player1=$(($player1+$numberOnDie))
 			;;
 		$SNAKE)
-			PLAYER1=$(($PLAYER1-$numberOnDie))
+			player1=$(($player1-$numberOnDie))
 			;;
 	esac
 }
