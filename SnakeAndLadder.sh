@@ -1,4 +1,4 @@
-#!/bin/bash -x
+##!/bin/bash -x
 echo "Welcome to Snake And Ladder"
 #Constant
 INITIAL_POSITION=0
@@ -8,7 +8,7 @@ LADDER=1
 SNAKE=2
 #Variable
 player1=$INITIAL_POSITION
-
+counter=0
 function ladderSnakeOrNoPlayChecking() {
 	option=$((RANDOM%3))
 	case $option in
@@ -35,13 +35,15 @@ function ladderSnakeOrNoPlayChecking() {
 function dieRoll() {
 	numberOnDie=$(($RANDOM%6+1))
 	ladderSnakeOrNoPlayChecking
+	((counter++))
 }
 dieRoll
 
 while [ $player1 -lt $WINNING_POSITION ]
 do
 	dieRoll
+	echo "Die Count is : $counter"
+	echo "Player 1 position : $player1"
 done
-
 
 
