@@ -17,26 +17,31 @@ function ladderSnakeOrNoPlayChecking() {
 			;;
 		$LADDER)
 			player1=$(($player1+$numberOnDie))
+			if [ $player1 -gt 100 ]
+			then
+				player1=$(($player1-$numberOnDie))
+			fi
 			;;
 		$SNAKE)
 			player1=$(($player1-$numberOnDie))
+			if [ $player1 -lt 0 ]
+			then
+				player1=0
+			fi
 			;;
 	esac
 }
 
 function dieRoll() {
-   numberOnDie=$(($RANDOM%6+1))
+	numberOnDie=$(($RANDOM%6+1))
 	ladderSnakeOrNoPlayChecking
 }
 dieRoll
 
 while [ $player1 -lt $WINNING_POSITION ]
 do
-   if [ $player1 -lt 0 ]
-   then
-      player1=0
-   fi
-   dieRoll
+	dieRoll
 done
+
 
 
