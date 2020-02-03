@@ -1,4 +1,4 @@
-##!/bin/bash -x
+#!/bin/bash -x
 echo "Welcome to Snake And Ladder"
 #Constant
 INITIAL_POSITION=0
@@ -11,6 +11,7 @@ player1=$INITIAL_POSITION
 player2=$INITIAL_POSITION
 currentPlayer=$INITIAL_POSITION
 flag=true
+
 function ladderSnakeOrNoPlayChecking() {
 	option=$((RANDOM%3))
 	case $option in
@@ -19,16 +20,16 @@ function ladderSnakeOrNoPlayChecking() {
 			;;
 		$LADDER)
 			currentPlayer=$(($currentPlayer+$numberOnDie))
-			if [ $currentPlayer -gt 100 ]
+			if [ $currentPlayer -gt $WINNING_POSITION ]
 			then
 				currentPlayer=$(($currentPlayer-$numberOnDie))
 			fi
 			;;
 		$SNAKE)
 			currentPlayer=$(($currentPlayer-$numberOnDie))
-			if [ $currentPlayer -lt 0 ]
+			if [ $currentPlayer -lt $INITIAL_POSITION ]
 			then
-				currentPlayer=0
+				currentPlayer=$INITIAL_POSITION
 			fi
 			;;
 	esac
@@ -39,7 +40,7 @@ function dieRoll() {
 	ladderSnakeOrNoPlayChecking
 }
 
-function playingWith2Player(){
+function playingWithTwoPlayer(){
 	if [[ $flag == true ]]
 	then
 		currentPlayer=$player1
@@ -54,18 +55,18 @@ function playingWith2Player(){
 	fi
 }
 
-while [ $currentPlayer -lt $WINNING_POSITION ]
-do
-	playingWith2Player
-done
-
 function winnerChecking(){
 	if [[ $player1 -eq $WINNING_POSITION ]]
 	then
 		echo "PLAYER 1 WIN!!!"
-	elif [[ $player2 -eq $WINNING_POSITION ]]
-	then
+	else
 		echo "PLAYER 2 WIN!!!"
 	fi
 }
+
+while [ $currentPlayer -lt $WINNING_POSITION ]
+do
+	playingWithTwoPlayer
+done
+
 winnerChecking
